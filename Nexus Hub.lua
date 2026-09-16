@@ -428,7 +428,7 @@ task.wait(1.4)
 TweenService:Create(Intro, TweenInfo.new(1.0, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 1}):Play()
 task.wait(1.0)
 
-Intro.Text = "CHRISS-CRACKED"
+Intro.Text = "Karl Cracked"
 Intro.Font = Enum.Font.GothamMedium
 TweenService:Create(Intro, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
 task.wait(1.4)
@@ -2424,6 +2424,7 @@ local function OpenMainHub()
     KeyActiveLabel.ZIndex = 3
 
     local Tabs = {
+        {Name = "Fondos", Icon = "🎨"},
         {Name = "Silent Aim", Icon = "◉"},
         {Name = "ESP", Icon = "◈"},
         {Name = "Player", Icon = "●"},
@@ -2531,12 +2532,83 @@ local function OpenMainHub()
         return frame
     end
 
+    local FondosScroll = CreateTabScroll("Fondos")
     local SilentScroll = CreateTabScroll("Silent Aim")
     local ESPScroll = CreateTabScroll("ESP")
     local PlayerScroll = CreateTabScroll("Player")
     local VehicleScroll = CreateTabScroll("Vehicle")
     local MiscScroll = CreateTabScroll("Misc")
     local ConfigScroll = CreateTabScroll("Config")
+
+    --========================================================--
+    -- FONDOS
+    --========================================================--
+
+    local FondoOverlay = Instance.new("Frame")
+    FondoOverlay.Name = "FondoOverlay"
+    FondoOverlay.Size = UDim2.new(1, 0, 1, 0)
+    FondoOverlay.BackgroundTransparency = 0
+    FondoOverlay.BackgroundColor3 = Color3.fromRGB(12, 9, 19)
+    FondoOverlay.ZIndex = 1
+    FondoOverlay.Parent = Background
+
+    local FondoGradient = Instance.new("UIGradient")
+    FondoGradient.Rotation = 45
+    FondoGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(12, 9, 19)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(35, 20, 55))
+    })
+    FondoGradient.Parent = FondoOverlay
+
+    local Fondos = {
+        ["🌌 Nebulosa"] = {
+            Color3.fromRGB(12, 9, 19),
+            Color3.fromRGB(80, 25, 120)
+        },
+        ["🌃 Cyberpunk"] = {
+            Color3.fromRGB(8, 15, 30),
+            Color3.fromRGB(0, 120, 150)
+        },
+        ["🌲 Bosque"] = {
+            Color3.fromRGB(5, 18, 12),
+            Color3.fromRGB(20, 80, 45)
+        },
+        ["🌊 Océano"] = {
+            Color3.fromRGB(5, 15, 30),
+            Color3.fromRGB(20, 90, 140)
+        },
+        ["⚡ Neón"] = {
+            Color3.fromRGB(25, 5, 35),
+            Color3.fromRGB(130, 20, 100)
+        }
+    }
+
+    local function CrearBotonFondo(nombre, colores)
+        local boton = Instance.new("TextButton")
+        boton.Size = UDim2.new(1, 0, 0, 42)
+        boton.BackgroundColor3 = colores[1]
+        boton.BackgroundTransparency = 0.15
+        boton.BorderSizePixel = 0
+        boton.Text = nombre
+        boton.TextColor3 = Color3.fromRGB(245, 245, 250)
+        boton.TextSize = 13
+        boton.Font = Enum.Font.GothamMedium
+        boton.ZIndex = 3
+        boton.Parent = FondosScroll
+
+        Instance.new("UICorner", boton).CornerRadius = UDim.new(0, 10)
+
+        boton.MouseButton1Click:Connect(function()
+            FondoGradient.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, colores[1]),
+                ColorSequenceKeypoint.new(1, colores[2])
+            })
+        end)
+    end
+
+    for nombre, colores in pairs(Fondos) do
+        CrearBotonFondo(nombre, colores)
+    end
 
     local function MakeToggle(parent, titleText, defaultVal, callback)
         local row = Instance.new("Frame")
